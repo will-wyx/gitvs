@@ -9,7 +9,7 @@ using System.Text;
 
 namespace ExpressMaster
 {
-    public partial class FormMain : Form
+    public partial class FormMain : Form 
     {
         public FormMain()
         {

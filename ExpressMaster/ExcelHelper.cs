@@ -155,6 +155,15 @@ namespace ExpressMaster
             toStyleTotalAmount.BorderLeft = BorderStyle.Thin;
             toStyleTotalAmount.BorderRight = BorderStyle.Thin;
             toStyleTotalAmount.BorderTop = BorderStyle.Thin;
+
+            ICellStyle colorStyle = toWorkbook.CreateCellStyle();
+            colorStyle.BorderBottom = BorderStyle.Thin;
+            colorStyle.BorderLeft = BorderStyle.Thin;
+            colorStyle.BorderRight = BorderStyle.Thin;
+            colorStyle.BorderTop = BorderStyle.Thin;
+            colorStyle.FillForegroundColor = NPOI.HSSF.Util.HSSFColor.Green.Index;
+            colorStyle.FillPattern = FillPattern.SolidForeground;
+
             IDataFormat toFormatTotalAmount = toWorkbook.CreateDataFormat();
             toStyleTotalAmount.DataFormat = toFormatTotalAmount.GetFormat("#,##0.00");
 
@@ -256,7 +265,15 @@ namespace ExpressMaster
 
                     string totalAmount = string.Format("ROUNDUP(IF((C{0}-F{0})<=0,0,ROUNDDOWN((C{0}-F{0}),1)),0)*I{0}+IF((C{0}-F{0})<=0,G{0},H{0})", toSheetRowIndex);
                     cellTotalAmount.SetCellFormula(totalAmount);
-                    cellTotalAmount.CellStyle = toStyleTotalAmount;
+                    if (d4c.Key != "default")
+                    {
+                        cellTotalAmount.CellStyle = colorStyle;
+
+                    }
+                    else
+                    {
+                        cellTotalAmount.CellStyle = toStyleTotalAmount;
+                    }
 
                     double firstWeight = Convert.ToDouble(d4c.FirstWeight);
                     cellFirstWeight.SetCellValue(firstWeight);
@@ -297,6 +314,15 @@ namespace ExpressMaster
             style.BorderLeft = BorderStyle.Thin;
             style.BorderRight = BorderStyle.Thin;
             style.BorderTop = BorderStyle.Thin;
+
+            ICellStyle colorStyle = workbook.CreateCellStyle();
+            colorStyle.BorderBottom = BorderStyle.Thin;
+            colorStyle.BorderLeft = BorderStyle.Thin;
+            colorStyle.BorderRight = BorderStyle.Thin;
+            colorStyle.BorderTop = BorderStyle.Thin;
+            colorStyle.FillForegroundColor = NPOI.HSSF.Util.HSSFColor.Green.Index;
+            colorStyle.FillPattern = FillPattern.SolidForeground;
+
             IDataFormat format = workbook.CreateDataFormat();
             style.DataFormat = format.GetFormat("#,##0.00");
 
@@ -388,7 +414,15 @@ namespace ExpressMaster
                     cellFirstAmountB.CellStyle = style;
                     //cellTotalAmount.SetCellFormula(string.Format("ROUNDUP(IF((J{0}-L{0})<=0,0,ROUNDDOWN((J{0}-L{0}),1)),0)*N{0}+M{0}", i + 1));
                     cellTotalAmount.SetCellFormula(string.Format("ROUNDUP(IF((K{0}-M{0})<=0,0,ROUNDDOWN((K{0}-M{0}),1)),0)*P{0}+IF((K{0}-M{0})<=0,N{0},O{0})", i + 1));
-                    cellTotalAmount.CellStyle = style;
+                    if (d4c.Key != "default")
+                    {
+                        cellTotalAmount.CellStyle = colorStyle;
+
+                    }
+                    else
+                    {
+                        cellTotalAmount.CellStyle = style;
+                    }
                     if (weight.Equals(0))
                     {
                         cellOrderNumber.CellStyle = styleZero;
@@ -414,6 +448,16 @@ namespace ExpressMaster
             style.BorderLeft = BorderStyle.Thin;
             style.BorderRight = BorderStyle.Thin;
             style.BorderTop = BorderStyle.Thin;
+
+            ICellStyle colorStyle = workbook.CreateCellStyle();
+            colorStyle.BorderBottom = BorderStyle.Thin;
+            colorStyle.BorderLeft = BorderStyle.Thin;
+            colorStyle.BorderRight = BorderStyle.Thin;
+            colorStyle.BorderTop = BorderStyle.Thin;
+            colorStyle.FillForegroundColor = NPOI.HSSF.Util.HSSFColor.Green.Index;
+            colorStyle.FillPattern = FillPattern.SolidForeground;
+
+
             IDataFormat format = workbook.CreateDataFormat();
             style.DataFormat = format.GetFormat("#,##0.00");
 
@@ -509,7 +553,15 @@ namespace ExpressMaster
                     cellOtherAmount.SetCellValue(Convert.ToDouble(d4c.OtherAmount));
                     cellOtherAmount.CellStyle = style;
                     cellTotalAmount.SetCellFormula(string.Format("ROUNDUP(IF((M{0}-O{0})<=0,0,ROUNDDOWN((M{0}-O{0}),1)),0)*R{0}+IF((M{0}-O{0})<=0,P{0},Q{0})", i + 1));
-                    cellTotalAmount.CellStyle = style;
+                    if (d4c.Key != "default")
+                    {
+                        cellTotalAmount.CellStyle = colorStyle;
+
+                    }
+                    else
+                    {
+                        cellTotalAmount.CellStyle = style;
+                    }
                     if (weight.Equals(0))
                     {
                         cellOrderNumber.CellStyle = styleZero;

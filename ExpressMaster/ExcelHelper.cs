@@ -485,11 +485,11 @@ namespace ExpressMaster
                 {
                     ICellStyle headStyle = row.GetCell(row.LastCellNum - 1).CellStyle;
                     ICell
-                        cellTotalAmount = row.CreateCell(N),
-                        cellFirstWeight = row.CreateCell(O)   /* O */,
-                        cellFirstAmount = row.CreateCell(P)   /* P */,
-                        cellFirstAmountB = row.CreateCell(Q)  /* Q */,
-                        cellOtherAmount = row.CreateCell(R)   /* R */;
+                        cellTotalAmount = row.CreateCell(O),
+                        cellFirstWeight = row.CreateCell(P)   /* O */,
+                        cellFirstAmount = row.CreateCell(Q)   /* P */,
+                        cellFirstAmountB = row.CreateCell(R)  /* Q */,
+                        cellOtherAmount = row.CreateCell(S)   /* R */;
                     cellTotalAmount.CellStyle = headStyle;
                     cellTotalAmount.SetCellValue("金额");
 
@@ -511,12 +511,12 @@ namespace ExpressMaster
                         cellOrderNumber = row.GetCell(E) /* E列 */,
                         cellProvince = row.GetCell(J) /* J列 */,
                         cellCity = row.GetCell(K)  /* K */,
-                        cellWeight = row.GetCell(M) /* M列 */,
-                        cellTotalAmount = row.CreateCell(N)   /* N */,
-                        cellFirstWeight = row.CreateCell(O)   /* O */,
-                        cellFirstAmount = row.CreateCell(P)   /* P */,
-                        cellFirstAmountB = row.CreateCell(Q)  /* Q */,
-                        cellOtherAmount = row.CreateCell(R)   /* R */;
+                        cellWeight = row.GetCell(N) /* N列 */,
+                        cellTotalAmount = row.CreateCell(O)   /* N */,
+                        cellFirstWeight = row.CreateCell(P)   /* O */,
+                        cellFirstAmount = row.CreateCell(Q)   /* P */,
+                        cellFirstAmountB = row.CreateCell(R)  /* Q */,
+                        cellOtherAmount = row.CreateCell(S)   /* R */;
                     string city = cellProvince.StringCellValue + cellCity.StringCellValue;
                     double weight = cellWeight.NumericCellValue;
 
@@ -552,7 +552,7 @@ namespace ExpressMaster
                     cellFirstAmountB.CellStyle = style;
                     cellOtherAmount.SetCellValue(Convert.ToDouble(d4c.OtherAmount));
                     cellOtherAmount.CellStyle = style;
-                    cellTotalAmount.SetCellFormula(string.Format("ROUNDUP(IF((M{0}-O{0})<=0,0,ROUNDDOWN((M{0}-O{0}),1)),0)*R{0}+IF((M{0}-O{0})<=0,P{0},Q{0})", i + 1));
+                    cellTotalAmount.SetCellFormula(string.Format("ROUNDUP(IF((N{0}-P{0})<=0,0,ROUNDDOWN((N{0}-P{0}),1)),0)*S{0}+IF((N{0}-P{0})<=0,Q{0},R{0})", i + 1));
                     if (d4c.Key != "default")
                     {
                         cellTotalAmount.CellStyle = colorStyle;

@@ -9,7 +9,7 @@ using System.Text;
 
 namespace ExpressMaster
 {
-    public partial class FormMain : Form 
+    public partial class FormMain : Form
     {
         public FormMain()
         {
@@ -44,7 +44,7 @@ namespace ExpressMaster
             return (p1.PinyinInitials == p2.PinyinInitials ? 0 : (p1.PinyinInitials > p2.PinyinInitials ? -1 : 1));
         }
 
-        List<ProfileEntity> profileEntitys /* 配置项 */;
+        List<ProfileEntity> profileEntities /* 配置项 */;
         /// <summary>
         /// 加载配置
         /// </summary>
@@ -61,11 +61,11 @@ namespace ExpressMaster
             if (!profile.Exists)
             {
                 /* 文件不存在 */
-                profileEntitys = new List<ProfileEntity>();
+                profileEntities = new List<ProfileEntity>();
 
                 string key1 = "default", key2 = "北京|天津|河北";
 
-                profileEntitys.Add(new ProfileEntity
+                profileEntities.Add(new ProfileEntity
                 {
                     Name = "红牡丹",
                     PinyinInitials = 'H',
@@ -83,7 +83,7 @@ namespace ExpressMaster
                 });
                 #region Profiledata
 
-                profileEntitys.Add(new ProfileEntity
+                profileEntities.Add(new ProfileEntity
                 {
                     Name = "小孟",
                     PinyinInitials = 'X',
@@ -100,7 +100,7 @@ namespace ExpressMaster
                     }
                 });
 
-                profileEntitys.Add(new ProfileEntity
+                profileEntities.Add(new ProfileEntity
                 {
                     Name = "芊芊家",
                     PinyinInitials = 'Q',
@@ -117,7 +117,7 @@ namespace ExpressMaster
                     }
                 });
 
-                profileEntitys.Add(new ProfileEntity
+                profileEntities.Add(new ProfileEntity
                 {
                     Name = "宇旺",
                     PinyinInitials = 'Y',
@@ -134,7 +134,7 @@ namespace ExpressMaster
                     }
                 });
 
-                profileEntitys.Add(new ProfileEntity
+                profileEntities.Add(new ProfileEntity
                 {
                     Name = "利忠",
                     PinyinInitials = 'L',
@@ -151,7 +151,7 @@ namespace ExpressMaster
                     }
                 });
 
-                profileEntitys.Add(new ProfileEntity
+                profileEntities.Add(new ProfileEntity
                 {
                     Name = "智远",
                     PinyinInitials = 'Z',
@@ -168,7 +168,7 @@ namespace ExpressMaster
                     }
                 });
 
-                profileEntitys.Add(new ProfileEntity
+                profileEntities.Add(new ProfileEntity
                 {
                     Name = "美姿",
                     PinyinInitials = 'M',
@@ -185,7 +185,7 @@ namespace ExpressMaster
                     }
                 });
 
-                profileEntitys.Add(new ProfileEntity
+                profileEntities.Add(new ProfileEntity
                 {
                     Name = "刘磊",
                     PinyinInitials = 'L',
@@ -202,7 +202,7 @@ namespace ExpressMaster
                     }
                 });
 
-                profileEntitys.Add(new ProfileEntity
+                profileEntities.Add(new ProfileEntity
                 {
                     Name = "正新（途乐）",
                     PinyinInitials = 'Z',
@@ -219,7 +219,7 @@ namespace ExpressMaster
                     }
                 });
 
-                profileEntitys.Add(new ProfileEntity
+                profileEntities.Add(new ProfileEntity
                 {
                     Name = "马家沟",
                     PinyinInitials = 'M',
@@ -236,7 +236,7 @@ namespace ExpressMaster
                     }
                 });
 
-                profileEntitys.Add(new ProfileEntity
+                profileEntities.Add(new ProfileEntity
                 {
                     Name = "龙邦",
                     PinyinInitials = 'L',
@@ -254,7 +254,7 @@ namespace ExpressMaster
                 });
                 #endregion
 
-                string json = jss.Serialize(profileEntitys);
+                string json = jss.Serialize(profileEntities);
                 FileStream fs = profile.Create();
                 byte[] buffer = Encoding.UTF8.GetBytes(json);
                 fs.Write(buffer, 0, buffer.Length);
@@ -269,7 +269,7 @@ namespace ExpressMaster
                 fs.Read(buffer, 0, fileLength);
                 fs.Close();
                 string json = Encoding.UTF8.GetString(buffer);
-                profileEntitys = jss.Deserialize<List<ProfileEntity>>(json);
+                profileEntities = jss.Deserialize<List<ProfileEntity>>(json);
             }
 
             //profileEntitys.Sort(SortProfileEntity);
@@ -317,7 +317,7 @@ namespace ExpressMaster
         {
 
             data.Clear();
-            ProfileEntity pe = profileEntitys.Find(p => p.Name.Equals(company));
+            ProfileEntity pe = profileEntities.Find(p => p.Name.Equals(company));
             if (pe != null)
             {
                 foreach (ValuesEntity ve in pe.Values)
@@ -368,7 +368,7 @@ namespace ExpressMaster
             dt.Columns.Add(valueCol);
             DataColumn textCol = new DataColumn("text", System.Type.GetType("System.String"));
             dt.Columns.Add(textCol);
-            foreach (ProfileEntity pe in profileEntitys)
+            foreach (ProfileEntity pe in profileEntities)
             {
                 DataRow dr = dt.NewRow();
                 dr["value"] = pe.Name;
@@ -390,13 +390,13 @@ namespace ExpressMaster
         {
             exhlp.Data = data;
 
-            ProfileEntity pe = profileEntitys.Find(p => p.Name.Equals(company));
+            ProfileEntity pe = profileEntities.Find(p => p.Name.Equals(company));
             foreach (ValuesEntity ve in pe.Values)
             {
                 ve.Items = data.ToArray();
             }
             FileInfo profile = new FileInfo(profileName);
-            string json = jss.Serialize(profileEntitys);
+            string json = jss.Serialize(profileEntities);
             FileStream fs = profile.Create();
             byte[] buffer = Encoding.UTF8.GetBytes(json);
             fs.Write(buffer, 0, buffer.Length);
@@ -543,6 +543,39 @@ namespace ExpressMaster
         {
             company = cbxMinor.SelectedValue.ToString();
             BindingDGV();
+        }
+
+        private void btnAddItem_Click(object sender, EventArgs e)
+        {
+            string itemName = cbxMinor.Text;
+            DialogResult dr = MessageBox.Show("确定要加项吗：" + itemName, "提示", MessageBoxButtons.YesNo);
+            if (dr.Equals(DialogResult.Yes))
+            {
+                List<ProfileEntity> pes = profileEntities;
+                ProfileEntity pe = new ProfileEntity();
+                ValuesEntity ve = new ValuesEntity();
+                ve.Items = new Data4Cfg[6];
+                ve.Items[0] = new Data4Cfg() { FirstAmount = 8, FirstAmountB = 8, FirstWeight = 1, Key = "default", OtherAmount = 6 };
+                ve.Items[1] = new Data4Cfg() { FirstAmount = 8, FirstAmountB = 8, FirstWeight = 1, Key = "地区1", OtherAmount = 6 };
+                ve.Items[2] = new Data4Cfg() { FirstAmount = 8, FirstAmountB = 8, FirstWeight = 1, Key = "地区2", OtherAmount = 6 };
+                ve.Items[3] = new Data4Cfg() { FirstAmount = 8, FirstAmountB = 8, FirstWeight = 1, Key = "地区3", OtherAmount = 6 };
+                ve.Items[4] = new Data4Cfg() { FirstAmount = 8, FirstAmountB = 8, FirstWeight = 1, Key = "地区4", OtherAmount = 6 };
+                ve.Items[5] = new Data4Cfg() { FirstAmount = 8, FirstAmountB = 8, FirstWeight = 1, Key = "地区5", OtherAmount = 6 };
+                pe.Name = cbxMinor.Text;
+                pe.Values = new ValuesEntity[1];
+                pe.Values[0] = ve;
+                pes.Add(pe);
+
+                FileInfo profile = new FileInfo(profileName);
+                string json = jss.Serialize(pes);
+                FileStream fs = profile.Create();
+                byte[] buffer = Encoding.UTF8.GetBytes(json);
+                fs.Write(buffer, 0, buffer.Length);
+                fs.Close();
+                System.Diagnostics.Process.Start(System.Reflection.Assembly.GetExecutingAssembly().Location);
+                this.Close();
+            }
+
         }
     }
 }

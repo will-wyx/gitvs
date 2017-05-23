@@ -172,16 +172,18 @@ namespace ExpressMaster
 
             IRow toRow = toSheet.CreateRow(toSheetRowIndex++);
             ICell
-                cellHeadOrderNumber = toRow.CreateCell(A),
-                cellHeadCity = toRow.CreateCell(B),
-                cellHeadWeight = toRow.CreateCell(C),
-                cellHeadTotalAmount = toRow.CreateCell(D),
-                cellHeadDate = toRow.CreateCell(E),
-                cellHeadFirstWeight = toRow.CreateCell(F),
-                cellHeadFirstAmount = toRow.CreateCell(G),
-                cellHeadFirstAmountB = toRow.CreateCell(H),
-                cellHeadOtherAmount = toRow.CreateCell(I);
+                cellHeadIndex = toRow.CreateCell(A),    // 序号
+                cellHeadOrderNumber = toRow.CreateCell(B),  // 单号
+                cellHeadCity = toRow.CreateCell(C), // 城市
+                cellHeadWeight = toRow.CreateCell(D),   // 重量
+                cellHeadTotalAmount = toRow.CreateCell(E),  // 总金额
+                cellHeadDate = toRow.CreateCell(F), // 日期
+                cellHeadFirstWeight = toRow.CreateCell(G),  // 首重重量
+                cellHeadFirstAmount = toRow.CreateCell(H),  // 小件首重金额
+                cellHeadFirstAmountB = toRow.CreateCell(I), // 大件首重金额
+                cellHeadOtherAmount = toRow.CreateCell(J);  // 续重金额
 
+            cellHeadIndex.SetCellValue("序号");
             cellHeadOrderNumber.SetCellValue("运单号");
             cellHeadCity.SetCellValue("城市");
             cellHeadWeight.SetCellValue("重量");
@@ -192,6 +194,7 @@ namespace ExpressMaster
             cellHeadFirstAmountB.SetCellValue("大件首重金额");
             cellHeadOtherAmount.SetCellValue("续重金额");
 
+            cellHeadIndex.CellStyle = toStyleHead;
             cellHeadOrderNumber.CellStyle = toStyleHead;
             cellHeadCity.CellStyle = toStyleHead;
             cellHeadWeight.CellStyle = toStyleHead;
@@ -202,20 +205,23 @@ namespace ExpressMaster
             cellHeadFirstAmountB.CellStyle = toStyleHead;
             cellHeadOtherAmount.CellStyle = toStyleHead;
 
+            int index = 1;
             foreach (ExpressEntity ee in DataOrder)
             {
                 IRow toItemRow = toSheet.CreateRow(toSheetRowIndex++);
                 ICell
-                    cellToRowOrderNumber = toItemRow.CreateCell(A),
-                    cellToRowCity = toItemRow.CreateCell(B),
-                    cellToWeight = toItemRow.CreateCell(C),
-                    cellTotalAmount = toItemRow.CreateCell(D),
-                    cellDate = toItemRow.CreateCell(E),
-                    cellFirstWeight = toItemRow.CreateCell(F),
-                    cellFirstAmount = toItemRow.CreateCell(G),
-                    cellFirstAmountB = toItemRow.CreateCell(H),
-                    cellOtherAmount = toItemRow.CreateCell(I);
+                    cellToIndex = toItemRow.CreateCell(A),
+                    cellToRowOrderNumber = toItemRow.CreateCell(B),
+                    cellToRowCity = toItemRow.CreateCell(C),
+                    cellToWeight = toItemRow.CreateCell(D),
+                    cellTotalAmount = toItemRow.CreateCell(E),
+                    cellDate = toItemRow.CreateCell(F),
+                    cellFirstWeight = toItemRow.CreateCell(G),
+                    cellFirstAmount = toItemRow.CreateCell(H),
+                    cellFirstAmountB = toItemRow.CreateCell(I),
+                    cellOtherAmount = toItemRow.CreateCell(J);
 
+                cellToIndex.SetCellType(CellType.Numeric);
                 cellToRowOrderNumber.SetCellType(CellType.String);
                 cellDate.SetCellType(CellType.String);
                 cellToRowCity.SetCellType(CellType.String);
@@ -226,6 +232,7 @@ namespace ExpressMaster
                 cellOtherAmount.SetCellType(CellType.Numeric);
                 cellFirstAmountB.SetCellType(CellType.Numeric);
 
+                cellToIndex.SetCellValue(index++);
                 cellToRowOrderNumber.SetCellValue(ee.OrderNumber);
                 if (ee.Flag)
                 {
@@ -263,17 +270,17 @@ namespace ExpressMaster
                     if (d4c == null)
                         d4c = Data[0];
 
-                    string totalAmount = string.Format("ROUNDUP(IF((C{0}-F{0})<=0,0,ROUNDDOWN((C{0}-F{0}),1)),0)*I{0}+IF((C{0}-F{0})<=0,G{0},H{0})", toSheetRowIndex);
+                    string totalAmount = string.Format("ROUNDUP(IF((D{0}-G{0})<=0,0,ROUNDDOWN((D{0}-G{0}),1)),0)*J{0}+IF((D{0}-G{0})<=0,H{0},I{0})", toSheetRowIndex);
                     cellTotalAmount.SetCellFormula(totalAmount);
-                    if (d4c.Key != "default")
-                    {
-                        cellTotalAmount.CellStyle = colorStyle;
+                    //if (d4c.Key != "default")
+                    //{
+                    //    cellTotalAmount.CellStyle = colorStyle;
 
-                    }
-                    else
-                    {
-                        cellTotalAmount.CellStyle = toStyleTotalAmount;
-                    }
+                    //}
+                    //else
+                    //{
+                    cellTotalAmount.CellStyle = toStyleTotalAmount;
+                    //}
 
                     double firstWeight = Convert.ToDouble(d4c.FirstWeight);
                     cellFirstWeight.SetCellValue(firstWeight);
@@ -334,6 +341,7 @@ namespace ExpressMaster
             styleZero.BorderTop = BorderStyle.Thin;
             styleZero.FillForegroundColor = NPOI.HSSF.Util.HSSFColor.Green.Index;
             styleZero.FillPattern = FillPattern.SolidForeground;
+            styleZero.DataFormat = format.GetFormat("#,##0.00");
 
             for (int i = sheetAt.FirstRowNum; i < sheetAt.LastRowNum; ++i)
             {
@@ -414,15 +422,15 @@ namespace ExpressMaster
                     cellFirstAmountB.CellStyle = style;
                     //cellTotalAmount.SetCellFormula(string.Format("ROUNDUP(IF((J{0}-L{0})<=0,0,ROUNDDOWN((J{0}-L{0}),1)),0)*N{0}+M{0}", i + 1));
                     cellTotalAmount.SetCellFormula(string.Format("ROUNDUP(IF((K{0}-M{0})<=0,0,ROUNDDOWN((K{0}-M{0}),1)),0)*P{0}+IF((K{0}-M{0})<=0,N{0},O{0})", i + 1));
-                    if (d4c.Key != "default")
-                    {
-                        cellTotalAmount.CellStyle = colorStyle;
+                    //if (d4c.Key != "default")
+                    //{
+                    //    cellTotalAmount.CellStyle = colorStyle;
 
-                    }
-                    else
-                    {
-                        cellTotalAmount.CellStyle = style;
-                    }
+                    //}
+                    //else
+                    //{
+                    cellTotalAmount.CellStyle = style;
+                    //}
                     if (weight.Equals(0))
                     {
                         cellOrderNumber.CellStyle = styleZero;
@@ -469,6 +477,7 @@ namespace ExpressMaster
             styleZero.BorderTop = BorderStyle.Thin;
             styleZero.FillForegroundColor = NPOI.HSSF.Util.HSSFColor.Green.Index;
             styleZero.FillPattern = FillPattern.SolidForeground;
+            styleZero.DataFormat = format.GetFormat("#,##0.00");
 
             for (int i = sheetAt.FirstRowNum; i < sheetAt.LastRowNum; ++i)
             {
@@ -553,15 +562,15 @@ namespace ExpressMaster
                     cellOtherAmount.SetCellValue(Convert.ToDouble(d4c.OtherAmount));
                     cellOtherAmount.CellStyle = style;
                     cellTotalAmount.SetCellFormula(string.Format("ROUNDUP(IF((N{0}-P{0})<=0,0,ROUNDDOWN((N{0}-P{0}),1)),0)*S{0}+IF((N{0}-P{0})<=0,Q{0},R{0})", i + 1));
-                    if (d4c.Key != "default")
-                    {
-                        cellTotalAmount.CellStyle = colorStyle;
+                    //if (d4c.Key != "default")
+                    //{
+                    //    cellTotalAmount.CellStyle = colorStyle;
 
-                    }
-                    else
-                    {
-                        cellTotalAmount.CellStyle = style;
-                    }
+                    //}
+                    //else
+                    //{
+                    cellTotalAmount.CellStyle = style;
+                    //}
                     if (weight.Equals(0))
                     {
                         cellOrderNumber.CellStyle = styleZero;

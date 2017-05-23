@@ -29,12 +29,17 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle5 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle6 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle7 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle8 = new System.Windows.Forms.DataGridViewCellStyle();
             this.cbxMain = new System.Windows.Forms.ComboBox();
             this.dgvMain = new System.Windows.Forms.DataGridView();
+            this.colKey = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colFirstWeight = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colFirstAmount = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colFirstAmountB = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colOtherAmount = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.cmsMain = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.tsmiRemove = new System.Windows.Forms.ToolStripMenuItem();
             this.ssMain = new System.Windows.Forms.StatusStrip();
@@ -42,11 +47,7 @@
             this.btnExport = new System.Windows.Forms.Button();
             this.btnAddRow = new System.Windows.Forms.Button();
             this.cbxMinor = new System.Windows.Forms.ComboBox();
-            this.colKey = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.colFirstWeight = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.colFirstAmount = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.colFirstAmountB = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.colOtherAmount = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.btnAddItem = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.dgvMain)).BeginInit();
             this.cmsMain.SuspendLayout();
             this.SuspendLayout();
@@ -77,6 +78,57 @@
             this.dgvMain.RowTemplate.Height = 23;
             this.dgvMain.Size = new System.Drawing.Size(659, 380);
             this.dgvMain.TabIndex = 1;
+            // 
+            // colKey
+            // 
+            this.colKey.DataPropertyName = "Key";
+            this.colKey.FillWeight = 86.88244F;
+            this.colKey.HeaderText = "地区关键字";
+            this.colKey.Name = "colKey";
+            // 
+            // colFirstWeight
+            // 
+            this.colFirstWeight.DataPropertyName = "FirstWeight";
+            dataGridViewCellStyle5.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
+            dataGridViewCellStyle5.Format = "N2";
+            dataGridViewCellStyle5.NullValue = "0";
+            this.colFirstWeight.DefaultCellStyle = dataGridViewCellStyle5;
+            this.colFirstWeight.FillWeight = 86.88244F;
+            this.colFirstWeight.HeaderText = "首重重量";
+            this.colFirstWeight.Name = "colFirstWeight";
+            // 
+            // colFirstAmount
+            // 
+            this.colFirstAmount.DataPropertyName = "FirstAmount";
+            dataGridViewCellStyle6.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
+            dataGridViewCellStyle6.Format = "C2";
+            dataGridViewCellStyle6.NullValue = "0";
+            this.colFirstAmount.DefaultCellStyle = dataGridViewCellStyle6;
+            this.colFirstAmount.FillWeight = 121.3103F;
+            this.colFirstAmount.HeaderText = "小件首重金额";
+            this.colFirstAmount.Name = "colFirstAmount";
+            // 
+            // colFirstAmountB
+            // 
+            this.colFirstAmountB.DataPropertyName = "FirstAmountB";
+            dataGridViewCellStyle7.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
+            dataGridViewCellStyle7.Format = "C2";
+            dataGridViewCellStyle7.NullValue = "0";
+            this.colFirstAmountB.DefaultCellStyle = dataGridViewCellStyle7;
+            this.colFirstAmountB.FillWeight = 121.3103F;
+            this.colFirstAmountB.HeaderText = "大件首重金额";
+            this.colFirstAmountB.Name = "colFirstAmountB";
+            // 
+            // colOtherAmount
+            // 
+            this.colOtherAmount.DataPropertyName = "OtherAmount";
+            dataGridViewCellStyle8.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
+            dataGridViewCellStyle8.Format = "C2";
+            dataGridViewCellStyle8.NullValue = "0";
+            this.colOtherAmount.DefaultCellStyle = dataGridViewCellStyle8;
+            this.colOtherAmount.FillWeight = 86.88244F;
+            this.colOtherAmount.HeaderText = "续重金额";
+            this.colOtherAmount.Name = "colOtherAmount";
             // 
             // cmsMain
             // 
@@ -138,62 +190,22 @@
             this.cbxMinor.TabIndex = 5;
             this.cbxMinor.SelectedIndexChanged += new System.EventHandler(this.cbxMinor_SelectedIndexChanged);
             // 
-            // colKey
+            // btnAddItem
             // 
-            this.colKey.DataPropertyName = "Key";
-            this.colKey.FillWeight = 86.88244F;
-            this.colKey.HeaderText = "地区关键字";
-            this.colKey.Name = "colKey";
-            // 
-            // colFirstWeight
-            // 
-            this.colFirstWeight.DataPropertyName = "FirstWeight";
-            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
-            dataGridViewCellStyle1.Format = "N2";
-            dataGridViewCellStyle1.NullValue = "0";
-            this.colFirstWeight.DefaultCellStyle = dataGridViewCellStyle1;
-            this.colFirstWeight.FillWeight = 86.88244F;
-            this.colFirstWeight.HeaderText = "首重重量";
-            this.colFirstWeight.Name = "colFirstWeight";
-            // 
-            // colFirstAmount
-            // 
-            this.colFirstAmount.DataPropertyName = "FirstAmount";
-            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
-            dataGridViewCellStyle2.Format = "C2";
-            dataGridViewCellStyle2.NullValue = "0";
-            this.colFirstAmount.DefaultCellStyle = dataGridViewCellStyle2;
-            this.colFirstAmount.FillWeight = 121.3103F;
-            this.colFirstAmount.HeaderText = "小件首重金额";
-            this.colFirstAmount.Name = "colFirstAmount";
-            // 
-            // colFirstAmountB
-            // 
-            this.colFirstAmountB.DataPropertyName = "FirstAmountB";
-            dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
-            dataGridViewCellStyle3.Format = "C2";
-            dataGridViewCellStyle3.NullValue = "0";
-            this.colFirstAmountB.DefaultCellStyle = dataGridViewCellStyle3;
-            this.colFirstAmountB.FillWeight = 121.3103F;
-            this.colFirstAmountB.HeaderText = "大件首重金额";
-            this.colFirstAmountB.Name = "colFirstAmountB";
-            // 
-            // colOtherAmount
-            // 
-            this.colOtherAmount.DataPropertyName = "OtherAmount";
-            dataGridViewCellStyle4.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
-            dataGridViewCellStyle4.Format = "C2";
-            dataGridViewCellStyle4.NullValue = "0";
-            this.colOtherAmount.DefaultCellStyle = dataGridViewCellStyle4;
-            this.colOtherAmount.FillWeight = 86.88244F;
-            this.colOtherAmount.HeaderText = "续重金额";
-            this.colOtherAmount.Name = "colOtherAmount";
+            this.btnAddItem.Location = new System.Drawing.Point(409, 6);
+            this.btnAddItem.Name = "btnAddItem";
+            this.btnAddItem.Size = new System.Drawing.Size(75, 23);
+            this.btnAddItem.TabIndex = 6;
+            this.btnAddItem.Text = "加项";
+            this.btnAddItem.UseVisualStyleBackColor = true;
+            this.btnAddItem.Click += new System.EventHandler(this.btnAddItem_Click);
             // 
             // FormMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(683, 467);
+            this.Controls.Add(this.btnAddItem);
             this.Controls.Add(this.cbxMinor);
             this.Controls.Add(this.btnAddRow);
             this.Controls.Add(this.btnExport);
@@ -226,6 +238,7 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn colFirstAmount;
         private System.Windows.Forms.DataGridViewTextBoxColumn colFirstAmountB;
         private System.Windows.Forms.DataGridViewTextBoxColumn colOtherAmount;
+        private System.Windows.Forms.Button btnAddItem;
     }
 }
 
